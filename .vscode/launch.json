@@ -1,0 +1,16 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run API",
+      "type": "coreclr",
+      "request": "launch",
+      "program": "${workspaceFolder}/server/Vantelyx.Api/bin/Debug/net8.0/Vantelyx.Api.dll",
+      "cwd": "${workspaceFolder}/server/Vantelyx.Api",
+      "preLaunchTask": "build-api",
+      "env": {
+        "ASPNETCORE_URLS": "http://localhost:8088"
+      }
+    }
+  ]
+}
