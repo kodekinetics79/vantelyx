@@ -63,18 +63,18 @@ export default function CalendarControl() {
       </div>
 
       {summary.approvalSlaBreaches === 0 ? (
-        <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-800">
+        <div className="rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-800">
           No SLA breaches right now. Continue tracking events in the calendar views below.
         </div>
       ) : null}
 
-      <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-soft">
+      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-soft">
         <div className="flex flex-wrap gap-2">
           {(Object.keys(viewLabel) as ViewMode[]).map((option) => (
             <button
               key={option}
               onClick={() => setView(option)}
-              className={`rounded-2xl px-4 py-2 text-sm font-bold ${view === option ? 'bg-brand-600 text-white' : 'bg-slate-100 text-slate-700'}`}
+              className={`rounded-lg px-4 py-2 text-sm font-bold ${view === option ? 'bg-brand-600 text-white' : 'bg-slate-100 text-slate-700'}`}
             >
               {viewLabel[option]}
             </button>
@@ -155,7 +155,7 @@ function CalendarRow({ event }: { event: CalendarEvent }) {
 
 function Metric({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-3xl border border-slate-200 bg-white p-4 shadow-soft">
+    <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-soft">
       <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{label}</p>
       <p className="mt-2 text-2xl font-black tracking-tight text-slate-950">{value}</p>
     </div>

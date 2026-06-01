@@ -42,9 +42,9 @@ const riskTone: Record<'Low' | 'Medium' | 'High' | 'Critical', string> = {
 
 function metricTile(icon: ReactNode, label: string, value: string, note: string) {
   return (
-    <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-soft transition hover:border-brand-200 hover:shadow-glow">
+    <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-soft transition hover:border-brand-200 hover:shadow-glow">
       <div className="mb-3 flex items-center gap-3">
-        <div className="rounded-2xl bg-brand-50 p-2 text-brand-600">{icon}</div>
+        <div className="rounded-lg bg-brand-50 p-2 text-brand-600">{icon}</div>
         <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">{label}</p>
       </div>
       <p className="text-3xl font-black tracking-tight text-slate-950">{value}</p>
@@ -133,7 +133,7 @@ export default function CommandCenter() {
       </div>
 
       <div className="grid gap-6 xl:grid-cols-3">
-        <div className="xl:col-span-2 rounded-3xl border border-slate-200 bg-white p-5 shadow-soft">
+        <div className="xl:col-span-2 rounded-xl border border-slate-200 bg-white p-5 shadow-soft">
           <div className="mb-4">
             <p className="text-xs font-bold uppercase tracking-[0.22em] text-brand-600">Recent Activity</p>
             <h3 className="text-2xl font-black tracking-tight">Latest workflow actions</h3>
@@ -141,10 +141,10 @@ export default function CommandCenter() {
 
           <div className="space-y-3">
             {recentActivity.length === 0 ? (
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-500">No activity yet. Create or update tasks/contracts to populate the timeline.</div>
+              <div className="rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm text-slate-500">No activity yet. Create or update tasks/contracts to populate the timeline.</div>
             ) : (
               recentActivity.map(({ contract, entry }) => (
-                <div key={entry.id} className="rounded-2xl border border-slate-200 p-4">
+                <div key={entry.id} className="rounded-lg border border-slate-200 p-4">
                   <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
                     <div>
                       <p className="font-black text-slate-900">{entry.message}</p>
@@ -159,16 +159,16 @@ export default function CommandCenter() {
         </div>
 
         <div className="space-y-6">
-          <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-soft">
+          <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-soft">
             <p className="text-xs font-bold uppercase tracking-[0.22em] text-brand-600">Notification Center</p>
             <h3 className="text-xl font-black tracking-tight">Recent notifications</h3>
 
             <div className="mt-4 space-y-3">
               {notifications.length === 0 ? (
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-500">No notifications yet. Work item activity will generate alerts automatically.</div>
+                <div className="rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm text-slate-500">No notifications yet. Work item activity will generate alerts automatically.</div>
               ) : (
                 notifications.map((notification) => (
-                  <div key={notification.id} className="rounded-2xl border border-slate-200 p-4">
+                  <div key={notification.id} className="rounded-lg border border-slate-200 p-4">
                     <div className="flex items-start justify-between gap-3">
                       <div>
                         <p className="font-black text-slate-900">{notification.title}</p>
@@ -187,18 +187,18 @@ export default function CommandCenter() {
             </div>
           </div>
 
-          <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-soft">
+          <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-soft">
             <p className="text-xs font-bold uppercase tracking-[0.22em] text-brand-600">Risk Watchlist</p>
             <h3 className="text-xl font-black tracking-tight">High-risk contracts</h3>
 
             <div className="mt-4 space-y-3">
               {highRiskContracts.length === 0 ? (
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-500">No high-risk contracts detected.</div>
+                <div className="rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm text-slate-500">No high-risk contracts detected.</div>
               ) : (
                 highRiskContracts.map((contract) => {
                   const label = riskLabel(contract.riskScore);
                   return (
-                    <div key={contract.id} className="rounded-2xl border border-slate-200 p-4">
+                    <div key={contract.id} className="rounded-lg border border-slate-200 p-4">
                       <div className="mb-2 flex items-center justify-between gap-2">
                         <p className="font-black text-slate-900">{contract.request.title}</p>
                         <span className={`inline-flex rounded-full border px-2.5 py-1 text-xs font-bold ${riskTone[label]}`}>{label}</span>
@@ -212,16 +212,16 @@ export default function CommandCenter() {
             </div>
           </div>
 
-          <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-soft">
+          <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-soft">
             <p className="text-xs font-bold uppercase tracking-[0.22em] text-brand-600">Renewal Radar</p>
             <h3 className="text-xl font-black tracking-tight">Upcoming renewals</h3>
 
             <div className="mt-4 space-y-3">
               {upcomingRenewals.length === 0 ? (
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-500">No upcoming renewals in the selected horizon.</div>
+                <div className="rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm text-slate-500">No upcoming renewals in the selected horizon.</div>
               ) : (
                 upcomingRenewals.map((contract) => (
-                  <div key={contract.id} className="rounded-2xl border border-slate-200 p-4">
+                  <div key={contract.id} className="rounded-lg border border-slate-200 p-4">
                     <p className="font-black text-slate-900">{contract.request.title}</p>
                     <p className="text-xs text-slate-500">{contract.counterparty.name}</p>
                     <p className="mt-2 text-sm text-slate-700">Renewal: {formatDate(contract.renewal.renewalDate)}</p>
@@ -232,14 +232,14 @@ export default function CommandCenter() {
             </div>
           </div>
 
-          <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-soft">
+          <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-soft">
             <p className="text-xs font-bold uppercase tracking-[0.22em] text-brand-600">Execution Snapshot</p>
             <h3 className="text-xl font-black tracking-tight">Execution and closure status</h3>
             <p className="mt-3 text-sm text-slate-700">Executed contracts: <span className="font-bold">{executedContracts}</span></p>
             <p className="mt-1 text-sm text-slate-700">Due this week: <span className="font-bold">{opsMetrics.dueThisWeek}</span></p>
           </div>
 
-          <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-soft">
+          <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-soft">
             <p className="text-xs font-bold uppercase tracking-[0.22em] text-brand-600">Today’s Contract Intelligence</p>
             <h3 className="text-xl font-black tracking-tight">Copilot smart brief</h3>
             <ul className="mt-3 space-y-1 text-sm text-slate-700">

@@ -122,13 +122,13 @@ export default function ESign() {
         <SummaryCard label="Archived Final Contracts" value={String(archivedFinalContracts)} />
       </div>
 
-      <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-soft">
+      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-soft">
         <h3 className="text-xl font-black tracking-tight text-slate-950">Create Package</h3>
         <div className="mt-4 flex flex-wrap items-center gap-3">
           <select
             value={selectedContractId}
             onChange={(event) => setSelectedContractId(event.target.value)}
-            className="min-w-[320px] rounded-2xl border border-slate-200 px-4 py-2 text-sm outline-none focus:border-brand-500"
+            className="min-w-[320px] rounded-lg border border-slate-200 px-4 py-2 text-sm outline-none focus:border-brand-500"
           >
             {contracts.map((contract) => (
               <option key={contract.id} value={contract.id}>
@@ -136,7 +136,7 @@ export default function ESign() {
               </option>
             ))}
           </select>
-          <button onClick={createPackage} className="rounded-2xl bg-brand-600 px-4 py-2 text-sm font-bold text-white">
+          <button onClick={createPackage} className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-bold text-white">
             Create Package
           </button>
         </div>
@@ -144,7 +144,7 @@ export default function ESign() {
 
       <div className="space-y-4">
         {packages.length === 0 ? (
-          <div className="rounded-3xl border border-slate-200 bg-white p-6 text-sm text-slate-500 shadow-soft">
+          <div className="rounded-xl border border-slate-200 bg-white p-6 text-sm text-slate-500 shadow-soft">
             No execution packages yet. Create a package to begin signature workflow.
           </div>
         ) : (
@@ -155,7 +155,7 @@ export default function ESign() {
             const finalArchiveStatus = pkg.archiveId ? 'Archived' : pkg.status === 'executed' ? 'Ready to Archive' : 'Not Archived';
 
             return (
-              <div key={pkg.id} className="rounded-3xl border border-slate-200 bg-white p-5 shadow-soft">
+              <div key={pkg.id} className="rounded-xl border border-slate-200 bg-white p-5 shadow-soft">
                 <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                   <div>
                     <p className="text-sm font-black text-slate-950">{contract?.request.title ?? pkg.contractId}</p>
@@ -290,7 +290,7 @@ export default function ESign() {
       </div>
 
       {message ? (
-        <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-800">
+        <div className="rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-800">
           {message}
         </div>
       ) : null}
@@ -300,7 +300,7 @@ export default function ESign() {
 
 function SummaryCard({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-3xl border border-slate-200 bg-white p-4 shadow-soft">
+    <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-soft">
       <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{label}</p>
       <p className="mt-2 text-2xl font-black tracking-tight text-slate-950">{value}</p>
     </div>

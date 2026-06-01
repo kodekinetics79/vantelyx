@@ -139,42 +139,55 @@ export default function App() {
   };
 
   return (
-    <div className="flex min-h-screen bg-slate-50">
+    <div className="flex min-h-screen bg-slate-100">
       <aside className="hidden w-64 shrink-0 flex-col border-r border-slate-200 bg-white px-3 py-5 lg:flex">
-        <div className="flex items-center gap-3 px-3 pb-5">
-          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 to-brand-700 text-base font-black text-white shadow-glow">V</div>
+        <div className="flex items-center gap-3 px-2 pb-6">
+          <div className="flex h-9 w-9 items-center justify-center rounded-md bg-brand-600 text-base font-black text-white">V</div>
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-brand-600">Vantelyx</p>
-            <p className="text-lg font-black tracking-tight text-slate-950">CLM Suite</p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-brand-600">Vantelyx</p>
+            <p className="text-base font-black tracking-tight text-slate-900">CLM Suite</p>
           </div>
         </div>
-        <nav className="flex-1 space-y-1">
-          {nav.map((item) => (
-            <button
-              key={item.key}
-              type="button"
-              onClick={() => go(item.key)}
-              className={`flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm font-bold transition ${
-                route === item.key ? 'bg-brand-600 text-white' : 'text-slate-600 hover:bg-slate-100'
-              }`}
-            >
-              {item.icon}
-              <span className="flex-1">{item.label}</span>
-              {item.badge ? (
-                <span className="rounded-full bg-brand-100 px-2 py-0.5 text-[10px] font-black text-brand-700">{item.badge}</span>
-              ) : null}
-            </button>
-          ))}
+        <p className="px-2 pb-2 text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">Workspace</p>
+        <nav className="flex-1 space-y-0.5">
+          {nav.map((item) => {
+            const active = route === item.key;
+            return (
+              <button
+                key={item.key}
+                type="button"
+                onClick={() => go(item.key)}
+                className={`group flex w-full items-center gap-3 rounded-md border-l-2 px-3 py-2 text-left text-sm font-semibold transition ${
+                  active
+                    ? 'border-brand-600 bg-brand-50 text-brand-700'
+                    : 'border-transparent text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                }`}
+              >
+                <span className={active ? 'text-brand-600' : 'text-slate-400 group-hover:text-slate-600'}>{item.icon}</span>
+                <span className="flex-1">{item.label}</span>
+                {item.badge ? (
+                  <span className="rounded bg-brand-100 px-1.5 py-0.5 text-[10px] font-black text-brand-700">{item.badge}</span>
+                ) : null}
+              </button>
+            );
+          })}
         </nav>
-        <div className="mt-4 border-t border-slate-200 px-3 pt-4">
-          <p className="truncate text-sm font-black text-slate-900">{sessionUser.fullName}</p>
-          <p className="truncate text-xs text-slate-500">{sessionUser.email}</p>
+        <div className="mt-4 rounded-lg border border-slate-200 bg-slate-50 p-3">
+          <div className="flex items-center gap-3">
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-100 text-sm font-black text-brand-700">
+              {sessionUser.fullName.split(' ').map((part) => part[0]).slice(0, 2).join('')}
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-sm font-bold text-slate-900">{sessionUser.fullName}</p>
+              <p className="truncate text-xs text-slate-500">{sessionUser.email}</p>
+            </div>
+          </div>
           <button
             type="button"
             onClick={signOut}
-            className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl border border-slate-200 px-3 py-2 text-sm font-bold text-slate-700 hover:bg-slate-100"
+            className="mt-3 flex w-full items-center justify-center gap-2 rounded-md border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-700 transition hover:bg-slate-100"
           >
-            <LogOut size={15} /> Sign out
+            <LogOut size={14} /> Sign out
           </button>
         </div>
       </aside>

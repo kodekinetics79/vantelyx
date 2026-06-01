@@ -51,7 +51,7 @@ export default function Analytics() {
         <h2 className="mt-1 text-3xl font-black tracking-tight text-slate-950">Export readiness command center</h2>
       </div>
 
-      <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-soft">
+      <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-soft">
         <div className="mb-5 grid gap-3 md:grid-cols-3 xl:grid-cols-6">
           <Metric label="Total Contracts" value={String(metrics?.totalContracts ?? 0)} />
           <Metric label="Pending Approvals" value={String(metrics?.pendingApprovals ?? 0)} />
@@ -72,38 +72,38 @@ export default function Analytics() {
         </p>
 
         {!canExport ? (
-          <div className="mt-5 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm font-semibold text-amber-900">
+          <div className="mt-5 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm font-semibold text-amber-900">
             Your current role does not have permission to perform this action.
           </div>
         ) : (
           <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-5">
             <button
               onClick={() => runExport('vantelyx-contracts.csv', () => clmRepository.exportContractsCsv())}
-              className="rounded-2xl bg-brand-600 px-4 py-3 text-sm font-bold text-white"
+              className="rounded-lg bg-brand-600 px-4 py-3 text-sm font-bold text-white"
             >
               Contracts CSV
             </button>
             <button
               onClick={() => runExport('vantelyx-obligations.csv', () => clmRepository.exportObligationsCsv())}
-              className="rounded-2xl bg-brand-600 px-4 py-3 text-sm font-bold text-white"
+              className="rounded-lg bg-brand-600 px-4 py-3 text-sm font-bold text-white"
             >
               Obligations CSV
             </button>
             <button
               onClick={() => runExport('vantelyx-renewals.csv', () => clmRepository.exportRenewalsCsv())}
-              className="rounded-2xl bg-amber-500 px-4 py-3 text-sm font-bold text-white"
+              className="rounded-lg bg-amber-500 px-4 py-3 text-sm font-bold text-white"
             >
               Renewals CSV
             </button>
             <button
               onClick={() => runExport('vantelyx-audit-log.csv', () => clmRepository.exportAuditLogCsv())}
-              className="rounded-2xl bg-emerald-600 px-4 py-3 text-sm font-bold text-white"
+              className="rounded-lg bg-emerald-600 px-4 py-3 text-sm font-bold text-white"
             >
               Audit Log CSV
             </button>
             <button
               onClick={() => runExport('vantelyx-execution-packages.csv', () => clmRepository.exportExecutionPackagesCsv())}
-              className="rounded-2xl bg-violet-600 px-4 py-3 text-sm font-bold text-white"
+              className="rounded-lg bg-violet-600 px-4 py-3 text-sm font-bold text-white"
             >
               Execution CSV
             </button>
@@ -116,7 +116,7 @@ export default function Analytics() {
 
 function Metric({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3">
+    <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
       <p className="text-xs font-bold uppercase tracking-wide text-slate-500">{label}</p>
       <p className="mt-1 text-sm font-black text-slate-900">{value}</p>
     </div>

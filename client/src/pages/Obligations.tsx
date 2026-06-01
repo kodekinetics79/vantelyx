@@ -91,9 +91,9 @@ export default function Obligations() {
         <Metric label="Due in 7 Days" value={String(due7Count)} />
       </div>
 
-      {message ? <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-900">{message}</div> : null}
+      {message ? <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-900">{message}</div> : null}
 
-      <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-soft">
+      <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-soft">
         <table className="w-full min-w-[1200px] text-left text-sm">
           <thead className="bg-slate-50 text-xs uppercase tracking-wider text-slate-500">
             <tr>
@@ -146,7 +146,7 @@ export default function Obligations() {
 
 function Metric({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-3xl border border-slate-200 bg-white p-4 shadow-soft">
+    <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-soft">
       <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{label}</p>
       <p className="mt-2 text-2xl font-black tracking-tight text-slate-950">{value}</p>
     </div>

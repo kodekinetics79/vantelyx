@@ -86,7 +86,7 @@ export default function Vendors() {
 
       <div className="grid gap-4 xl:grid-cols-3">
         {counterparties.slice(0, 6).map((counterparty) => (
-          <div key={counterparty.id} className="rounded-3xl border border-slate-200 bg-white p-5 shadow-soft">
+          <div key={counterparty.id} className="rounded-xl border border-slate-200 bg-white p-5 shadow-soft">
             <div className="mb-3 flex items-start justify-between gap-3">
               <div>
                 <p className="text-lg font-black text-slate-950">{counterparty.name}</p>
@@ -104,7 +104,7 @@ export default function Vendors() {
         ))}
       </div>
 
-      <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-soft">
+      <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-soft">
         <table className="w-full min-w-[1100px] text-left text-sm">
           <thead className="bg-slate-50 text-xs uppercase tracking-wider text-slate-500">
             <tr>
@@ -153,7 +153,7 @@ export default function Vendors() {
         </table>
       </div>
       {!canManageVendors ? (
-        <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-900">
+        <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-900">
           Your current role does not have permission to perform this action.
         </div>
       ) : null}
@@ -163,7 +163,7 @@ export default function Vendors() {
 
 function SummaryCard({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-3xl border border-slate-200 bg-white p-4 shadow-soft">
+    <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-soft">
       <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">{label}</p>
       <p className="mt-2 text-2xl font-black tracking-tight text-slate-950">{value}</p>
     </div>

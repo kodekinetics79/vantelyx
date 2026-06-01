@@ -56,7 +56,7 @@ export function Shell({ activeView, setActiveView, children }: { activeView: Vie
         <div className="flex h-full flex-col">
           <div className="border-b border-white/10 p-6">
             <div className="flex items-center gap-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-slate-950 shadow-glow">
+              <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-white text-slate-950 shadow-glow">
                 <FileSearch size={22} />
               </div>
               <div>
@@ -72,7 +72,7 @@ export function Shell({ activeView, setActiveView, children }: { activeView: Vie
                 key={item.key}
                 onClick={() => setActiveView(item.key)}
                 className={cx(
-                  'flex w-full items-center justify-between rounded-2xl px-4 py-3 text-left text-sm font-medium transition',
+                  'flex w-full items-center justify-between rounded-lg px-4 py-3 text-left text-sm font-medium transition',
                   activeView === item.key
                     ? 'bg-white text-slate-950 shadow-soft'
                     : 'text-slate-300 hover:bg-white/10 hover:text-white'
@@ -87,7 +87,7 @@ export function Shell({ activeView, setActiveView, children }: { activeView: Vie
             ))}
           </nav>
 
-          <div className="m-4 rounded-3xl border border-white/10 bg-white/10 p-4">
+          <div className="m-4 rounded-xl border border-white/10 bg-white/10 p-4">
             <div className="mb-3 flex items-center gap-2 text-sm font-semibold">
               <Activity size={16} /> Live RFP Mode
             </div>
@@ -106,13 +106,13 @@ export function Shell({ activeView, setActiveView, children }: { activeView: Vie
               <h1 className="text-2xl font-black tracking-tight md:text-3xl">Future-ready CLM command workspace</h1>
             </div>
             <div className="flex items-center gap-3">
-              <button className="hidden rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm md:inline-flex">
+              <button className="hidden rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm md:inline-flex">
                 Export Board
               </button>
-              <button className="rounded-2xl bg-slate-950 px-4 py-2 text-sm font-semibold text-white shadow-soft">
+              <button className="rounded-lg bg-slate-950 px-4 py-2 text-sm font-semibold text-white shadow-soft">
                 + New Contract
               </button>
-              <button className="relative rounded-2xl border border-slate-200 bg-white p-2.5 shadow-sm">
+              <button className="relative rounded-lg border border-slate-200 bg-white p-2.5 shadow-sm">
                 <Bell size={18} />
                 <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-red-500" />
               </button>

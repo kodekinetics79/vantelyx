@@ -524,7 +524,7 @@ export default function ContractWorkspace({ contractId }: ContractWorkspaceProps
 
   if (!contract) {
     return (
-      <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-soft">
+      <div className="rounded-xl border border-slate-200 bg-white p-8 shadow-soft">
         <p className="text-xs font-bold uppercase tracking-[0.22em] text-brand-600">Contract Workspace</p>
         <h2 className="mt-2 text-2xl font-black tracking-tight">No contract selected</h2>
         <p className="mt-3 text-sm text-slate-500">
@@ -536,7 +536,7 @@ export default function ContractWorkspace({ contractId }: ContractWorkspaceProps
 
   return (
     <div className="space-y-6">
-      <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-soft">
+      <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-soft">
         <p className="text-xs font-bold uppercase tracking-[0.22em] text-brand-600">Contract Workspace</p>
         <div className="mt-2 flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div>
@@ -576,7 +576,7 @@ export default function ContractWorkspace({ contractId }: ContractWorkspaceProps
 
         {message ? (
           <p
-            className={`mt-4 rounded-2xl px-4 py-3 text-sm font-semibold ${
+            className={`mt-4 rounded-lg px-4 py-3 text-sm font-semibold ${
               message.includes('does not have permission')
                 ? 'bg-amber-50 text-amber-900'
                 : 'bg-emerald-50 text-emerald-800'
@@ -587,13 +587,13 @@ export default function ContractWorkspace({ contractId }: ContractWorkspaceProps
         ) : null}
       </div>
 
-      <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-soft">
+      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-soft">
         <div className="flex flex-wrap gap-2">
           {tabs.map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`rounded-2xl px-4 py-2 text-sm font-bold transition ${
+              className={`rounded-lg px-4 py-2 text-sm font-bold transition ${
                 activeTab === tab ? 'bg-brand-600 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
               }`}
             >
@@ -726,7 +726,7 @@ export default function ContractWorkspace({ contractId }: ContractWorkspaceProps
           {activeTab === 'Clauses' ? (
             <div className="space-y-3">
               {clauseReviews.map((clause) => (
-                <div key={clause.id} className="rounded-2xl border border-slate-200 p-4">
+                <div key={clause.id} className="rounded-lg border border-slate-200 p-4">
                   <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
                     <div className="space-y-2">
                       <div className="flex flex-wrap items-center gap-2">
@@ -810,7 +810,7 @@ export default function ContractWorkspace({ contractId }: ContractWorkspaceProps
           {activeTab === 'Approvals' ? (
             <div className="space-y-3">
               {contract.approvals.map((step) => (
-                <div key={step.id} className="rounded-2xl border border-slate-200 p-4">
+                <div key={step.id} className="rounded-lg border border-slate-200 p-4">
                   <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                     <div>
                       <p className="font-black text-slate-900">{prettyStatus(step.role)}</p>
@@ -842,7 +842,7 @@ export default function ContractWorkspace({ contractId }: ContractWorkspaceProps
           {activeTab === 'Obligations' ? (
             <div className="space-y-3">
               {contract.obligations.map((obligation) => (
-                <div key={obligation.id} className="rounded-2xl border border-slate-200 p-4">
+                <div key={obligation.id} className="rounded-lg border border-slate-200 p-4">
                   <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                     <div>
                       <p className="font-black text-slate-900">{obligation.title}</p>
@@ -956,7 +956,7 @@ export default function ContractWorkspace({ contractId }: ContractWorkspaceProps
               </Panel>
 
               {executionReady ? null : (
-                <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4">
+                <div className="rounded-lg border border-amber-200 bg-amber-50 p-4">
                   <p className="font-black text-amber-900">Execution Blockers</p>
                   <ul className="mt-2 space-y-1 text-sm text-amber-800">
                     {executionBlockers.map((blocker) => (
@@ -1025,7 +1025,7 @@ export default function ContractWorkspace({ contractId }: ContractWorkspaceProps
               {[...contract.activity]
                 .sort((a, b) => (a.timestamp < b.timestamp ? 1 : -1))
                 .map((entry: ActivityLog) => (
-                  <div key={entry.id} className="rounded-2xl border border-slate-200 p-4">
+                  <div key={entry.id} className="rounded-lg border border-slate-200 p-4">
                     <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
                       <div className="space-y-2">
                         <p className="font-black text-slate-900">{entry.action ?? prettyStatus(entry.event)}</p>
@@ -1066,7 +1066,7 @@ export default function ContractWorkspace({ contractId }: ContractWorkspaceProps
           {activeTab === 'Document Intelligence' && documentIntelligence ? (
             <div className="space-y-4">
               {documentIntelligence.humanReviewNeeded ? (
-                <div className="rounded-2xl border border-red-200 bg-red-50 p-4">
+                <div className="rounded-lg border border-red-200 bg-red-50 p-4">
                   <p className="font-black text-red-900">Human Review Needed</p>
                   <ul className="mt-2 space-y-1 text-sm text-red-800">
                     {documentIntelligence.humanReviewReasons.map((reason) => (
@@ -1075,7 +1075,7 @@ export default function ContractWorkspace({ contractId }: ContractWorkspaceProps
                   </ul>
                 </div>
               ) : (
-                <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
+                <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-4">
                   <p className="font-black text-emerald-900">No immediate human review blockers detected</p>
                 </div>
               )}
@@ -1095,7 +1095,7 @@ export default function ContractWorkspace({ contractId }: ContractWorkspaceProps
                 <ExtractionCard label="Audit Rights" value={documentIntelligence.auditRights} confidence={documentIntelligence.confidence.auditRights} />
               </div>
 
-              <div className="rounded-2xl border border-slate-200 p-4">
+              <div className="rounded-lg border border-slate-200 p-4">
                 <p className="font-black text-slate-900">Critical Clause Status</p>
                 <div className="mt-3 grid gap-3 md:grid-cols-3">
                   <ClausePill label="Confidentiality" status={documentIntelligence.confidentiality} confidence={documentIntelligence.confidence.confidentiality} />
@@ -1113,7 +1113,7 @@ export default function ContractWorkspace({ contractId }: ContractWorkspaceProps
 
 function Metric({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3">
+    <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
       <p className="text-xs font-bold uppercase tracking-wide text-slate-500">{label}</p>
       <p className="mt-1 text-sm font-black text-slate-900">{value}</p>
     </div>
@@ -1139,7 +1139,7 @@ function ActionButton({
   };
 
   return (
-    <button onClick={onClick} disabled={disabled} className={`rounded-2xl px-4 py-2 text-sm font-bold disabled:opacity-50 ${tones[tone]}`}>
+    <button onClick={onClick} disabled={disabled} className={`rounded-lg px-4 py-2 text-sm font-bold disabled:opacity-50 ${tones[tone]}`}>
       {label}
     </button>
   );
@@ -1147,7 +1147,7 @@ function ActionButton({
 
 function Panel({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <div className="rounded-2xl border border-slate-200 p-4">
+    <div className="rounded-lg border border-slate-200 p-4">
       <p className="font-black text-slate-900">{title}</p>
       <div className="mt-2">{children}</div>
     </div>
@@ -1157,7 +1157,7 @@ function Panel({ title, children }: { title: string; children: ReactNode }) {
 function ExtractionCard({ label, value, confidence }: { label: string; value: string; confidence: number }) {
   const pct = Math.round(confidence * 100);
   return (
-    <div className="rounded-2xl border border-slate-200 p-4">
+    <div className="rounded-lg border border-slate-200 p-4">
       <p className="text-xs font-bold uppercase tracking-wide text-slate-500">{label}</p>
       <p className="mt-1 text-sm font-semibold text-slate-900">{value}</p>
       <div className="mt-3">
@@ -1175,7 +1175,7 @@ function ExtractionCard({ label, value, confidence }: { label: string; value: st
 
 function ClausePill({ label, status, confidence }: { label: string; status: 'present' | 'missing'; confidence: number }) {
   return (
-    <div className={`rounded-2xl border p-3 ${status === 'present' ? 'border-emerald-200 bg-emerald-50' : 'border-red-200 bg-red-50'}`}>
+    <div className={`rounded-lg border p-3 ${status === 'present' ? 'border-emerald-200 bg-emerald-50' : 'border-red-200 bg-red-50'}`}>
       <p className={`text-sm font-black ${status === 'present' ? 'text-emerald-900' : 'text-red-900'}`}>{label}</p>
       <p className={`mt-1 text-xs font-semibold uppercase ${status === 'present' ? 'text-emerald-700' : 'text-red-700'}`}>{status}</p>
       <p className={`mt-1 text-xs ${status === 'present' ? 'text-emerald-800' : 'text-red-800'}`}>Confidence {Math.round(confidence * 100)}%</p>

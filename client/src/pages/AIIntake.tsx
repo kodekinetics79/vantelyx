@@ -138,7 +138,7 @@ export default function AIIntake({ onNavigateRepository }: AIIntakeProps) {
 
   return (
     <div className="grid gap-6 xl:grid-cols-3">
-      <div className="xl:col-span-2 rounded-3xl border border-slate-200 bg-white p-6 shadow-soft">
+      <div className="xl:col-span-2 rounded-xl border border-slate-200 bg-white p-6 shadow-soft">
         <div className="mb-6">
           <p className="text-xs font-bold uppercase tracking-[0.22em] text-brand-600">Smart Intake</p>
           <h2 className="text-2xl font-black tracking-tight">AI Contract Intake</h2>
@@ -149,7 +149,7 @@ export default function AIIntake({ onNavigateRepository }: AIIntakeProps) {
 
         <form onSubmit={handleSubmit} className="grid gap-4 md:grid-cols-2">
           {!canCreateContract ? (
-            <div className="md:col-span-2 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm font-semibold text-amber-900">
+            <div className="md:col-span-2 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm font-semibold text-amber-900">
               Your current role does not have permission to perform this action.
             </div>
           ) : null}
@@ -159,7 +159,7 @@ export default function AIIntake({ onNavigateRepository }: AIIntakeProps) {
               required
               value={form.contractTitle}
               onChange={(event) => handleChange('contractTitle', event.target.value)}
-              className="rounded-2xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-brand-500"
+              className="rounded-lg border border-slate-200 px-4 py-3 text-sm outline-none focus:border-brand-500"
               placeholder="e.g. Enterprise SaaS Subscription Agreement"
             />
           </label>
@@ -170,7 +170,7 @@ export default function AIIntake({ onNavigateRepository }: AIIntakeProps) {
               required
               value={form.counterparty}
               onChange={(event) => handleChange('counterparty', event.target.value)}
-              className="rounded-2xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-brand-500"
+              className="rounded-lg border border-slate-200 px-4 py-3 text-sm outline-none focus:border-brand-500"
               placeholder="Counterparty legal name"
             />
           </label>
@@ -180,7 +180,7 @@ export default function AIIntake({ onNavigateRepository }: AIIntakeProps) {
             <select
               value={form.contractType}
               onChange={(event) => handleChange('contractType', event.target.value as ContractRequest['contractType'])}
-              className="rounded-2xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-brand-500"
+              className="rounded-lg border border-slate-200 px-4 py-3 text-sm outline-none focus:border-brand-500"
             >
               {contractTypes.map((type) => (
                 <option key={type} value={type}>
@@ -198,7 +198,7 @@ export default function AIIntake({ onNavigateRepository }: AIIntakeProps) {
               min="0"
               value={form.value}
               onChange={(event) => handleChange('value', event.target.value)}
-              className="rounded-2xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-brand-500"
+              className="rounded-lg border border-slate-200 px-4 py-3 text-sm outline-none focus:border-brand-500"
               placeholder="250000"
             />
           </label>
@@ -209,7 +209,7 @@ export default function AIIntake({ onNavigateRepository }: AIIntakeProps) {
               required
               value={form.owner}
               onChange={(event) => handleChange('owner', event.target.value)}
-              className="rounded-2xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-brand-500"
+              className="rounded-lg border border-slate-200 px-4 py-3 text-sm outline-none focus:border-brand-500"
               placeholder="Business owner"
             />
           </label>
@@ -220,7 +220,7 @@ export default function AIIntake({ onNavigateRepository }: AIIntakeProps) {
               required
               value={form.department}
               onChange={(event) => handleChange('department', event.target.value)}
-              className="rounded-2xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-brand-500"
+              className="rounded-lg border border-slate-200 px-4 py-3 text-sm outline-none focus:border-brand-500"
               placeholder="e.g. Procurement"
             />
           </label>
@@ -232,7 +232,7 @@ export default function AIIntake({ onNavigateRepository }: AIIntakeProps) {
               type="date"
               value={form.startDate}
               onChange={(event) => handleChange('startDate', event.target.value)}
-              className="rounded-2xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-brand-500"
+              className="rounded-lg border border-slate-200 px-4 py-3 text-sm outline-none focus:border-brand-500"
             />
           </label>
 
@@ -243,7 +243,7 @@ export default function AIIntake({ onNavigateRepository }: AIIntakeProps) {
               type="date"
               value={form.endDate}
               onChange={(event) => handleChange('endDate', event.target.value)}
-              className="rounded-2xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-brand-500"
+              className="rounded-lg border border-slate-200 px-4 py-3 text-sm outline-none focus:border-brand-500"
             />
           </label>
 
@@ -255,7 +255,7 @@ export default function AIIntake({ onNavigateRepository }: AIIntakeProps) {
               min="1"
               value={form.renewalNoticeDays}
               onChange={(event) => handleChange('renewalNoticeDays', event.target.value)}
-              className="rounded-2xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-brand-500"
+              className="rounded-lg border border-slate-200 px-4 py-3 text-sm outline-none focus:border-brand-500"
               placeholder="90"
             />
           </label>
@@ -265,7 +265,7 @@ export default function AIIntake({ onNavigateRepository }: AIIntakeProps) {
             <select
               value={form.priority}
               onChange={(event) => handleChange('priority', event.target.value as IntakePriority)}
-              className="rounded-2xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-brand-500"
+              className="rounded-lg border border-slate-200 px-4 py-3 text-sm outline-none focus:border-brand-500"
             >
               {priorities.map((priority) => (
                 <option key={priority} value={priority}>
@@ -281,7 +281,7 @@ export default function AIIntake({ onNavigateRepository }: AIIntakeProps) {
               value={form.notes}
               onChange={(event) => handleChange('notes', event.target.value)}
               rows={4}
-              className="rounded-2xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-brand-500"
+              className="rounded-lg border border-slate-200 px-4 py-3 text-sm outline-none focus:border-brand-500"
               placeholder="Add any context for legal and approvers"
             />
           </label>
@@ -290,7 +290,7 @@ export default function AIIntake({ onNavigateRepository }: AIIntakeProps) {
             <button
               type="submit"
               disabled={submitting || !canCreateContract}
-              className="inline-flex items-center gap-2 rounded-2xl bg-brand-600 px-5 py-3 text-sm font-bold text-white disabled:opacity-60"
+              className="inline-flex items-center gap-2 rounded-lg bg-brand-600 px-5 py-3 text-sm font-bold text-white disabled:opacity-60"
             >
               <Sparkles size={16} />
               {submitting ? 'Processing Intake...' : 'Submit AI Intake'}
@@ -302,7 +302,7 @@ export default function AIIntake({ onNavigateRepository }: AIIntakeProps) {
                   onNavigateRepository();
                 }
               }}
-              className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-700"
+              className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-700"
             >
               Go to Contract Repository <ArrowRight size={16} />
             </button>
@@ -310,14 +310,14 @@ export default function AIIntake({ onNavigateRepository }: AIIntakeProps) {
         </form>
 
         {successMessage ? (
-          <div className="mt-6 flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-emerald-800">
+          <div className="mt-6 flex items-start gap-3 rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-emerald-800">
             <CheckCircle2 size={18} className="mt-0.5" />
             <p className="text-sm font-semibold">{successMessage}</p>
           </div>
         ) : null}
       </div>
 
-      <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-soft">
+      <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-soft">
         <p className="text-xs font-bold uppercase tracking-[0.22em] text-brand-600">AI Draft Output</p>
         <h3 className="text-xl font-black tracking-tight">Generated Summary</h3>
 
@@ -325,12 +325,12 @@ export default function AIIntake({ onNavigateRepository }: AIIntakeProps) {
           <p className="mt-4 text-sm text-slate-500">Submit intake details to generate risk, obligations, approvals, and renewal insights.</p>
         ) : (
           <div className="mt-4 space-y-4 text-sm">
-            <div className="rounded-2xl bg-slate-50 p-4">
+            <div className="rounded-lg bg-slate-50 p-4">
               <p className="font-bold text-slate-900">Risk Score</p>
               <p className="mt-1 text-slate-700">{createdContract.riskScore} / 100</p>
             </div>
 
-            <div className="rounded-2xl border border-slate-200 p-4">
+            <div className="rounded-lg border border-slate-200 p-4">
               <p className="font-bold text-slate-900">Missing Clauses</p>
               {missingClauses.length === 0 ? (
                 <p className="mt-1 text-slate-600">No missing clauses detected.</p>
@@ -343,7 +343,7 @@ export default function AIIntake({ onNavigateRepository }: AIIntakeProps) {
               )}
             </div>
 
-            <div className="rounded-2xl border border-slate-200 p-4">
+            <div className="rounded-lg border border-slate-200 p-4">
               <p className="font-bold text-slate-900">Obligations</p>
               <ul className="mt-2 space-y-1 text-slate-700">
                 {createdContract.obligations.map((obligation) => (
@@ -352,7 +352,7 @@ export default function AIIntake({ onNavigateRepository }: AIIntakeProps) {
               </ul>
             </div>
 
-            <div className="rounded-2xl border border-slate-200 p-4">
+            <div className="rounded-lg border border-slate-200 p-4">
               <p className="font-bold text-slate-900">Approval Path</p>
               <ul className="mt-2 space-y-1 text-slate-700">
                 {createdContract.approvals.map((step) => (
@@ -361,7 +361,7 @@ export default function AIIntake({ onNavigateRepository }: AIIntakeProps) {
               </ul>
             </div>
 
-            <div className="rounded-2xl bg-amber-50 p-4 text-amber-900">
+            <div className="rounded-lg bg-amber-50 p-4 text-amber-900">
               <p className="font-bold">Renewal Notice Date</p>
               <p className="mt-1">{formatDate(createdContract.renewal.noticeDeadline)}</p>
             </div>

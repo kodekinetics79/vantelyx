@@ -64,7 +64,7 @@ export default function Templates() {
         <h2 className="mt-1 text-3xl font-black tracking-tight text-slate-950">Template authoring and clause control center</h2>
       </div>
 
-      <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-soft">
+      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-soft">
         <h3 className="text-xl font-black tracking-tight text-slate-950">Template Library</h3>
         <div className="mt-4 overflow-x-auto">
           <table className="w-full min-w-[1150px] text-left text-sm">
@@ -135,7 +135,7 @@ export default function Templates() {
       </div>
 
       <div className="grid gap-6 xl:grid-cols-3">
-        <div className="xl:col-span-2 rounded-3xl border border-slate-200 bg-white p-5 shadow-soft">
+        <div className="xl:col-span-2 rounded-xl border border-slate-200 bg-white p-5 shadow-soft">
           <h3 className="text-xl font-black tracking-tight text-slate-950">Clause Library</h3>
           {selectedTemplate ? (
             <p className="mt-1 text-sm font-semibold text-slate-600">Viewing clauses for: {selectedTemplate.name}</p>
@@ -162,7 +162,7 @@ export default function Templates() {
           </div>
         </div>
 
-        <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-soft">
+        <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-soft">
           <h3 className="text-xl font-black tracking-tight text-slate-950">Draft Queue</h3>
           <p className="mt-1 text-sm text-slate-500">Drafts created in Template Studio are stored in localStorage.</p>
           <div className="mt-4 space-y-3">
@@ -170,7 +170,7 @@ export default function Templates() {
               <p className="text-sm text-slate-500">No drafts yet.</p>
             ) : (
               drafts.slice(0, 6).map((draft) => (
-                <div key={draft.id} className="rounded-2xl border border-slate-200 p-3">
+                <div key={draft.id} className="rounded-lg border border-slate-200 p-3">
                   <p className="text-sm font-black text-slate-900">{draft.templateName}</p>
                   <p className="mt-1 text-xs text-slate-600">{draft.id}</p>
                   <p className="mt-1 text-xs text-slate-500">Created {formatDate(draft.createdAt)}</p>
@@ -182,7 +182,7 @@ export default function Templates() {
       </div>
 
       {message ? (
-        <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-800">
+        <div className="rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-800">
           {message}
         </div>
       ) : null}

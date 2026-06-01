@@ -3,7 +3,7 @@ import { cx } from '../utils/format';
 import type { RiskLevel } from '../types/domain';
 
 export function Card({ children, className = '' }: { children: ReactNode; className?: string }) {
-  return <div className={cx('rounded-3xl border border-slate-200 bg-white p-5 shadow-soft', className)}>{children}</div>;
+  return <div className={cx('rounded-xl border border-slate-200 bg-white p-5 shadow-soft', className)}>{children}</div>;
 }
 
 export function SectionTitle({ eyebrow, title, action }: { eyebrow?: string; title: string; action?: ReactNode }) {
@@ -28,7 +28,7 @@ export function StatCard({ label, value, note, tone = 'blue' }: { label: string;
   };
   return (
     <Card>
-      <div className={cx('mb-4 inline-flex rounded-2xl px-3 py-1 text-xs font-bold', tones[tone])}>{label}</div>
+      <div className={cx('mb-4 inline-flex rounded-lg px-3 py-1 text-xs font-bold', tones[tone])}>{label}</div>
       <div className="text-3xl font-black tracking-tight">{value}</div>
       <p className="mt-2 text-sm leading-6 text-slate-500">{note}</p>
     </Card>

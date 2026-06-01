@@ -269,7 +269,7 @@ export default function Repository({ onOpenContractWorkspace }: RepositoryProps)
 
   return (
     <div className="space-y-6">
-      <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-soft">
+      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-soft">
         <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.22em] text-brand-600">Repository</p>
@@ -278,7 +278,7 @@ export default function Repository({ onOpenContractWorkspace }: RepositoryProps)
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
-            <div className="flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3">
+            <div className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-3">
               <Search size={18} className="text-slate-400" />
               <input
                 value={query}
@@ -287,7 +287,7 @@ export default function Repository({ onOpenContractWorkspace }: RepositoryProps)
                 className="w-80 border-none bg-transparent text-sm outline-none"
               />
             </div>
-            <div className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-xs font-bold text-slate-600">
+            <div className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-xs font-bold text-slate-600">
               <Filter size={15} /> Advanced Filters
             </div>
           </div>
@@ -298,7 +298,7 @@ export default function Repository({ onOpenContractWorkspace }: RepositoryProps)
             <button
               key={view}
               onClick={() => setSavedView(view)}
-              className={`rounded-2xl px-3 py-2 text-xs font-bold ${
+              className={`rounded-lg px-3 py-2 text-xs font-bold ${
                 savedView === view ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
               }`}
             >
@@ -307,7 +307,7 @@ export default function Repository({ onOpenContractWorkspace }: RepositoryProps)
           ))}
         </div>
 
-        <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+        <div className="mt-4 rounded-lg border border-slate-200 bg-slate-50 p-4">
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Natural Language Search</p>
           <div className="mt-2 flex flex-wrap gap-2">
             <input
@@ -337,7 +337,7 @@ export default function Repository({ onOpenContractWorkspace }: RepositoryProps)
           <select
             value={statusFilter}
             onChange={(event) => setStatusFilter(event.target.value as 'all' | ContractStatus)}
-            className="rounded-2xl border border-slate-200 px-3 py-2 text-sm outline-none focus:border-brand-500"
+            className="rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-brand-500"
           >
             <option value="all">All Statuses</option>
             <option value="intake">Intake</option>
@@ -355,7 +355,7 @@ export default function Repository({ onOpenContractWorkspace }: RepositoryProps)
           <select
             value={riskFilter}
             onChange={(event) => setRiskFilter(event.target.value as 'all' | 'low' | 'medium' | 'high' | 'critical')}
-            className="rounded-2xl border border-slate-200 px-3 py-2 text-sm outline-none focus:border-brand-500"
+            className="rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-brand-500"
           >
             <option value="all">All Risk Levels</option>
             <option value="low">Low</option>
@@ -367,7 +367,7 @@ export default function Repository({ onOpenContractWorkspace }: RepositoryProps)
           <select
             value={typeFilter}
             onChange={(event) => setTypeFilter(event.target.value as 'all' | Contract['request']['contractType'])}
-            className="rounded-2xl border border-slate-200 px-3 py-2 text-sm outline-none focus:border-brand-500"
+            className="rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-brand-500"
           >
             <option value="all">All Contract Types</option>
             {typeOptions.map((type) => (
@@ -380,7 +380,7 @@ export default function Repository({ onOpenContractWorkspace }: RepositoryProps)
           <select
             value={ownerFilter}
             onChange={(event) => setOwnerFilter(event.target.value)}
-            className="rounded-2xl border border-slate-200 px-3 py-2 text-sm outline-none focus:border-brand-500"
+            className="rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-brand-500"
           >
             <option value="all">All Owners</option>
             {ownerOptions.map((owner) => (
@@ -393,7 +393,7 @@ export default function Repository({ onOpenContractWorkspace }: RepositoryProps)
           <select
             value={counterpartyFilter}
             onChange={(event) => setCounterpartyFilter(event.target.value)}
-            className="rounded-2xl border border-slate-200 px-3 py-2 text-sm outline-none focus:border-brand-500"
+            className="rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-brand-500"
           >
             <option value="all">All Counterparties</option>
             {counterpartyOptions.map((counterparty) => (
@@ -413,7 +413,7 @@ export default function Repository({ onOpenContractWorkspace }: RepositoryProps)
         <SummaryCard title="Missing Clauses" value={String(dashboardMetrics.missingClauseCount)} />
       </div>
 
-      <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-soft">
+      <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-soft">
         <table className="w-full min-w-[1280px] text-left text-sm">
           <thead className="bg-slate-50 text-xs uppercase tracking-wider text-slate-500">
             <tr>
@@ -507,7 +507,7 @@ export default function Repository({ onOpenContractWorkspace }: RepositoryProps)
 
 function SummaryCard({ title, value }: { title: string; value: string }) {
   return (
-    <div className="rounded-3xl border border-slate-200 bg-white p-4 shadow-soft">
+    <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-soft">
       <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{title}</p>
       <p className="mt-2 text-2xl font-black tracking-tight text-slate-950">{value}</p>
     </div>

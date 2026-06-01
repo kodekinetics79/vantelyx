@@ -115,7 +115,7 @@ export default function Copilot() {
         </p>
       </div>
 
-      <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-soft">
+      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-soft">
         <div className="mb-3 flex flex-wrap gap-2">
           {prompts.map((prompt) => (
             <button key={prompt.label} onClick={() => submit(prompt.prompt)} className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-bold text-slate-700">
@@ -126,12 +126,12 @@ export default function Copilot() {
 
         <div className="space-y-3">
           {history.length === 0 ? (
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-500">
+            <div className="rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm text-slate-500">
               Start by asking: “Which contracts are high risk?” or “What renewals are due in 90 days?”
             </div>
           ) : (
             history.map((item) => (
-              <div key={item.id} className={`rounded-2xl border p-4 ${item.role === 'user' ? 'border-slate-200 bg-slate-50' : 'border-brand-100 bg-white'}`}>
+              <div key={item.id} className={`rounded-lg border p-4 ${item.role === 'user' ? 'border-slate-200 bg-slate-50' : 'border-brand-100 bg-white'}`}>
                 <p className="text-xs font-bold uppercase tracking-wide text-slate-500">{item.role === 'user' ? 'You' : 'Copilot'}</p>
                 <p className="mt-1 text-sm text-slate-900 whitespace-pre-wrap">{item.text}</p>
 
@@ -209,9 +209,9 @@ export default function Copilot() {
             value={question}
             onChange={(event) => setQuestion(event.target.value)}
             placeholder="Ask: high-risk vendor agreements expiring in 90 days..."
-            className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-brand-500"
+            className="w-full rounded-lg border border-slate-200 px-4 py-3 text-sm outline-none focus:border-brand-500"
           />
-          <button onClick={() => submit()} className="rounded-2xl bg-brand-600 px-4 py-3 text-sm font-bold text-white">Send</button>
+          <button onClick={() => submit()} className="rounded-lg bg-brand-600 px-4 py-3 text-sm font-bold text-white">Send</button>
         </div>
       </div>
     </div>

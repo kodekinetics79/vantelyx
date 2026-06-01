@@ -35,16 +35,16 @@ export default function Admin() {
         <h2 className="mt-1 text-3xl font-black tracking-tight text-slate-950">RBAC and access policy control center</h2>
       </div>
 
-      <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-soft">
+      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-soft">
         <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Current Demo User</p>
         <div className="mt-3 flex flex-wrap items-center gap-3">
-          <div className="rounded-2xl bg-slate-100 px-4 py-3 text-sm font-semibold text-slate-800">
+          <div className="rounded-lg bg-slate-100 px-4 py-3 text-sm font-semibold text-slate-800">
             {currentUser.fullName} · {currentUser.department}
           </div>
           <select
             value={currentUser.id}
             onChange={(event) => switchUser(event.target.value)}
-            className="rounded-2xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-brand-500"
+            className="rounded-lg border border-slate-200 px-4 py-3 text-sm outline-none focus:border-brand-500"
           >
             {users.map((user) => (
               <option key={user.id} value={user.id}>
@@ -97,7 +97,7 @@ export default function Admin() {
         <Panel title="Roles and Permissions">
           <div className="space-y-3">
             {roles.map((role) => (
-              <div key={role.id} className="rounded-2xl border border-slate-200 p-3">
+              <div key={role.id} className="rounded-lg border border-slate-200 p-3">
                 <p className="font-black text-slate-900">{role.name}</p>
                 <div className="mt-2 flex flex-wrap gap-2">
                   {role.permissions.map((permission) => (
@@ -116,7 +116,7 @@ export default function Admin() {
         <Panel title="Access Policy Summary">
           <div className="space-y-3">
             {policies.map((policy) => (
-              <div key={policy.id} className="rounded-2xl border border-slate-200 p-3">
+              <div key={policy.id} className="rounded-lg border border-slate-200 p-3">
                 <p className="font-black text-slate-900">{policy.name}</p>
                 <p className="mt-1 text-sm text-slate-700">{policy.summary}</p>
                 <p className="mt-2 text-xs text-slate-500">Required: {policy.requiredPermissions.join(', ')}</p>
@@ -130,7 +130,7 @@ export default function Admin() {
             {authorities.map((auth) => {
               const role = roles.find((r) => r.id === auth.roleId);
               return (
-                <div key={auth.id} className="rounded-2xl border border-slate-200 p-3">
+                <div key={auth.id} className="rounded-lg border border-slate-200 p-3">
                   <p className="font-black text-slate-900">{role?.name ?? auth.roleId}</p>
                   <p className="mt-1 text-sm text-slate-700">Max Value: ${auth.maxContractValue.toLocaleString()}</p>
                   <p className="mt-1 text-sm text-slate-700">High Risk Approval: {auth.canApproveHighRisk ? 'Yes' : 'No'}</p>
@@ -147,7 +147,7 @@ export default function Admin() {
 
 function Panel({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-soft">
+    <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-soft">
       <h3 className="text-xl font-black tracking-tight text-slate-950">{title}</h3>
       <div className="mt-4">{children}</div>
     </div>
@@ -156,7 +156,7 @@ function Panel({ title, children }: { title: string; children: ReactNode }) {
 
 function Metric({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-3xl border border-slate-200 bg-white p-4 shadow-soft">
+    <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-soft">
       <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{label}</p>
       <p className="mt-2 text-2xl font-black tracking-tight text-slate-950">{value}</p>
     </div>

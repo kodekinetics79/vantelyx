@@ -42,18 +42,18 @@ export default function Layout({ children, title = 'Vantelyx CLM' }: LayoutProps
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <header className="border-b border-t-4 border-slate-200 border-t-brand-600 bg-white/95 backdrop-blur">
+    <div className="min-h-screen bg-transparent">
+      <header className="sticky top-0 z-30 border-b border-brand-800 bg-brand-700">
         <div className="mx-auto flex max-w-[1440px] items-center justify-between px-6 py-4">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand-600">Vantelyx CLM</p>
-            <h1 className="text-xl font-black text-slate-950">{title}</h1>
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand-200">Vantelyx CLM</p>
+            <h1 className="text-xl font-black text-white">{title}</h1>
           </div>
 
           <div className="relative">
             <button
               onClick={() => setOpen((value) => !value)}
-              className="relative rounded-2xl border border-slate-200 bg-white p-2 text-slate-700 shadow-soft"
+              className="relative rounded-md border border-white/20 bg-brand-600 p-2 text-white transition hover:bg-brand-500"
               aria-label="Open notifications"
             >
               <Bell size={18} />
@@ -65,7 +65,7 @@ export default function Layout({ children, title = 'Vantelyx CLM' }: LayoutProps
             </button>
 
             {open ? (
-              <div className="absolute right-0 z-40 mt-2 w-[460px] rounded-2xl border border-slate-200 bg-white p-3 shadow-xl">
+              <div className="absolute right-0 z-40 mt-2 w-[460px] rounded-lg border border-slate-200 bg-white p-3 shadow-xl">
                 <div className="mb-2 flex items-center justify-between">
                   <p className="text-sm font-black text-slate-900">Notifications</p>
                   <div className="flex items-center gap-2">
