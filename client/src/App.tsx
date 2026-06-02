@@ -11,6 +11,7 @@ import {
   ListTodo,
   LockKeyhole,
   PenTool,
+  Plug,
   RefreshCw,
   ScrollText,
   Sparkles,
@@ -33,6 +34,7 @@ import Vendors from './pages/Vendors';
 import ESign from './pages/ESign';
 import Analytics from './pages/Analytics';
 import Admin from './pages/Admin';
+import Integrations from './pages/Integrations';
 import Login from './pages/Login';
 import { getSessionUser, isAuthenticated, logout } from './services/authService';
 import { LogOut } from 'lucide-react';
@@ -41,11 +43,12 @@ import { seedDemoData } from './services/vantelyxData';
 import { seedExecutionData } from './services/executionService';
 import { seedTaskData } from './services/taskService';
 import { seedTemplateStudioData } from './services/templateService';
+import { seedIntegrationData } from './services/integrationService';
 
 type Route =
   | 'command' | 'copilot' | 'intake' | 'repository' | 'workspace' | 'authoring'
   | 'templates' | 'workqueue' | 'obligations' | 'renewals' | 'calendar'
-  | 'vendors' | 'esign' | 'analytics' | 'admin';
+  | 'vendors' | 'esign' | 'integrations' | 'analytics' | 'admin';
 
 const WORKSPACE_KEY = 'vantelyx_selected_contract_id';
 
@@ -63,6 +66,7 @@ const nav: Array<{ key: Route; label: string; icon: JSX.Element; badge?: string 
   { key: 'calendar', label: 'Calendar', icon: <CalendarDays size={18} /> },
   { key: 'vendors', label: 'Vendors', icon: <Building2 size={18} /> },
   { key: 'esign', label: 'E-Signature', icon: <FileSignature size={18} /> },
+  { key: 'integrations', label: 'Integrations', icon: <Plug size={18} /> },
   { key: 'analytics', label: 'Analytics', icon: <Gauge size={18} /> },
   { key: 'admin', label: 'Admin & Security', icon: <LockKeyhole size={18} /> }
 ];
@@ -86,6 +90,7 @@ export default function App() {
       seedExecutionData();
       seedTaskData();
       seedTemplateStudioData();
+      seedIntegrationData();
     } catch (error) {
       console.warn('[App] Demo seeding skipped:', error);
     }
@@ -122,6 +127,7 @@ export default function App() {
       case 'calendar': return <CalendarControl />;
       case 'vendors': return <Vendors />;
       case 'esign': return <ESign />;
+      case 'integrations': return <Integrations />;
       case 'analytics': return <Analytics />;
       case 'admin': return <Admin />;
       default: return <CommandCenter />;

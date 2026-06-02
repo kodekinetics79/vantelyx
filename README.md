@@ -114,6 +114,29 @@ curl -H "Authorization: Bearer <jwt>" ...
 `/api/security/current-user` resolves the principal from the token's `sub` claim. The
 dev-login endpoint is a placeholder for OIDC/SAML federation against the university IdP.
 
+## Run modes (Sprint 10)
+
+Four modes, with the local demo always preserved via localStorage fallback. Full details
+and curl commands: [docs/API_INTEGRATION_PLAN.md](docs/API_INTEGRATION_PLAN.md).
+
+1. **Frontend-only** (default) — `npm run dev`; no backend; localStorage demo data.
+2. **API mode** — run the .NET API (InMemory) + `cp client/.env.example client/.env`.
+3. **MySQL mode** — `docker compose up -d mysql` then run the API with `Persistence__Provider=MySql`.
+4. **Full-stack** — `cp .env.example .env && docker compose up --build` (MySQL :3306, API :5058, web :9701).
+
+If `VITE_API_BASE_URL` is set the frontend calls the API first and falls back to localStorage
+on any error or 8s timeout — it never throws into the UI.
+
+Quick API checks:
+
+```bash
+curl -s http://localhost:5058/api/health
+curl -s http://localhost:5058/api/contracts
+curl -s http://localhost:5058/api/dashboard/metrics
+curl -s http://localhost:5058/api/work-items
+curl -s http://localhost:5058/api/integrations
+```
+
 ## Recommended next development sequence
 
 1. Connect React frontend to the .NET API instead of mock data.

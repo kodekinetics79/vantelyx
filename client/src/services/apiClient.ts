@@ -34,6 +34,21 @@ const authHeader = (): Record<string, string> => {
   return token ? { Authorization: `Bearer ${token}` } : {};
 };
 
+// Request timeout so a slow/unreachable API never hangs the UI — it falls back instead.
+export const REQUEST_TIMEOUT_MS = 8000;
+
+const isAbortError = (error: unknown): boolean =>
+  typeof error === 'object' && error !== null && (error as { name?: string }).name === 'AbortError';
+
+const withTimeout = (): { signal: AbortSignal | undefined; done: () => void } => {
+  if (typeof AbortController === 'undefined') {
+    return { signal: undefined, done: () => {} };
+  }
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+  return { signal: controller.signal, done: () => clearTimeout(timer) };
+};
+
 type RequestOptions<TFallback> = {
   body?: unknown;
   headers?: Record<string, string>;
@@ -50,6 +65,7 @@ async function request<TResponse, TFallback = TResponse>(
   }
 
   const url = `${apiBaseUrl}${path.startsWith('/') ? path : `/${path}`}`;
+  const { signal, done } = withTimeout();
 
   try {
     const response = await fetch(url, {
@@ -60,6 +76,7 @@ async function request<TResponse, TFallback = TResponse>(
         ...(options?.headers ?? {}),
       },
       body: options?.body === undefined ? undefined : JSON.stringify(options.body),
+      signal,
     });
 
     if (!response.ok) {
@@ -73,8 +90,10 @@ async function request<TResponse, TFallback = TResponse>(
 
     return (await response.json()) as TResponse;
   } catch (error) {
-    console.warn(`[apiClient] ${method} ${url} failed. Falling back.`, error);
+    console.warn(`[apiClient] ${method} ${url} failed${isAbortError(error) ? ' (timeout)' : ''}. Falling back.`, error);
     return options?.fallback as TFallback;
+  } finally {
+    done();
   }
 }
 
@@ -88,6 +107,7 @@ async function requestText<TFallback = string>(
   }
 
   const url = `${apiBaseUrl}${path.startsWith('/') ? path : `/${path}`}`;
+  const { signal, done } = withTimeout();
 
   try {
     const response = await fetch(url, {
@@ -97,6 +117,7 @@ async function requestText<TFallback = string>(
         ...(options?.headers ?? {}),
       },
       body: options?.body === undefined ? undefined : JSON.stringify(options.body),
+      signal,
     });
 
     if (!response.ok) {
@@ -106,8 +127,10 @@ async function requestText<TFallback = string>(
 
     return await response.text();
   } catch (error) {
-    console.warn(`[apiClient] ${method} ${url} failed. Falling back.`, error);
+    console.warn(`[apiClient] ${method} ${url} failed${isAbortError(error) ? ' (timeout)' : ''}. Falling back.`, error);
     return options?.fallback as TFallback;
+  } finally {
+    done();
   }
 }
 

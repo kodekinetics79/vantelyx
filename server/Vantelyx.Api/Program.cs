@@ -11,12 +11,22 @@ using Vantelyx.Api.Persistence;
 using Vantelyx.Api.Repositories;
 using Vantelyx.Api.Services;
 
+const string ApiVersion = "1.0.0";
+
 var builder = WebApplication.CreateBuilder(args);
 
+// CORS for Vite dev ports (frontend-only, API, and full-stack local modes).
+var allowedOrigins = new[]
+{
+    "http://localhost:9701",
+    "http://localhost:9702",
+    "http://localhost:9703",
+    "http://localhost:5173",
+};
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("dev", policy => policy
-        .AllowAnyOrigin()
+        .WithOrigins(allowedOrigins)
         .AllowAnyHeader()
         .AllowAnyMethod());
 });
@@ -108,6 +118,10 @@ app.MapGet("/", () => Results.Ok(new
         "/api/security/permissions",
         "/api/security/current-user",
         "/api/dashboard/metrics",
+        "/api/work-items",
+        "/api/notifications",
+        "/api/integrations",
+        "/api/execution-packages",
         "/api/exports/contracts",
         "/api/exports/obligations",
         "/api/exports/renewals",
@@ -118,10 +132,11 @@ app.MapGet("/", () => Results.Ok(new
 app.MapGet("/health", () => Results.Ok(new { status = "healthy", service = "vantelyx-clm-api", utc = DateTime.UtcNow }));
 app.MapGet("/api/health", () => Results.Ok(new
 {
-    apiStatus = "healthy",
+    status = "healthy",
     databaseMode,
-    authEnabled,
-    utc = DateTime.UtcNow
+    apiVersion = ApiVersion,
+    timestampUtc = DateTime.UtcNow,
+    authEnabled
 }));
 
 // ── Auth: dev login (issues a JWT for a seeded demo user) ───────────────────
@@ -233,6 +248,12 @@ app.MapPost("/api/security/switch-user-demo", (SecuritySwitchUserRequest request
 });
 
 app.MapGet("/api/dashboard/metrics", (ClmService service) => Results.Ok(ApiResponse.Ok(service.GetDashboardMetrics())));
+
+// Sprint 10: read-only operational + integration collections for the frontend adapter.
+app.MapGet("/api/work-items", (ClmService service) => Results.Ok(ApiResponse.Ok(service.GetWorkItems())));
+app.MapGet("/api/notifications", (ClmService service) => Results.Ok(ApiResponse.Ok(service.GetNotifications())));
+app.MapGet("/api/integrations", (ClmService service) => Results.Ok(ApiResponse.Ok(service.GetIntegrations())));
+app.MapGet("/api/execution-packages", (ClmService service) => Results.Ok(ApiResponse.Ok(service.GetExecutionPackages())));
 
 app.MapGet("/api/exports/contracts", (ClmService service) =>
     Results.Text(service.ExportContractsCsv(), "text/csv"));

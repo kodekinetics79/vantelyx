@@ -4,6 +4,7 @@ import { clmRepository } from '../services/clmRepository';
 import { getContractAccessScopeLabel, getVisibleContracts } from '../services/securityService';
 import { getDashboardMetrics } from '../services/vantelyxData';
 import { searchContractsNaturalLanguage } from '../services/aiCopilotService';
+import { addIntegrationEvent, getAvailableImportSources } from '../services/integrationService';
 import type { ClauseSignal, Contract, ContractStatus } from '../types/clm';
 import type { ExecutionPackage } from '../types/execution';
 
@@ -135,8 +136,27 @@ export default function Repository({ onOpenContractWorkspace }: RepositoryProps)
 
   const [contracts, setContracts] = useState<Contract[]>([]);
   const [executionPackages, setExecutionPackages] = useState<ExecutionPackage[]>([]);
+  const [importNotice, setImportNotice] = useState('');
   const dashboardMetrics = useMemo(() => getDashboardMetrics(), []);
   const accessScopeLabel = getContractAccessScopeLabel();
+  const importSources = useMemo(() => {
+    try {
+      return getAvailableImportSources();
+    } catch {
+      return [];
+    }
+  }, []);
+
+  const selectImportSource = (source: (typeof importSources)[number]) => {
+    addIntegrationEvent({ type: 'import_source_selected', connectorId: source.connectorId, message: `Import source selected: ${source.label}.` });
+    if (source.setupRequired) {
+      setImportNotice(`${source.label} requires setup. Configure it in the Integrations Hub.`);
+    } else if (source.key === 'local_upload') {
+      setImportNotice('Local upload ready (demo). Choose files to import.');
+    } else {
+      setImportNotice('Demo import simulated. No external documents were accessed.');
+    }
+  };
 
   useEffect(() => {
     const loadContracts = async () => {
@@ -305,6 +325,45 @@ export default function Repository({ onOpenContractWorkspace }: RepositoryProps)
               {savedViewLabel[view]}
             </button>
           ))}
+        </div>
+
+        <div className="mt-4 rounded-lg border border-slate-200 bg-slate-50 p-4">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Import Sources</p>
+            <span className="text-[11px] font-semibold text-slate-400">Status from Integrations Hub (demo)</span>
+          </div>
+          {importSources.length === 0 ? (
+            <p className="mt-2 text-xs text-slate-500">No import sources available.</p>
+          ) : (
+            <div className="mt-2 flex flex-wrap gap-2">
+              {importSources.map((source) => (
+                <button
+                  key={source.key}
+                  type="button"
+                  onClick={() => selectImportSource(source)}
+                  className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold text-slate-700 transition hover:border-brand-300 hover:bg-brand-50"
+                >
+                  {source.label}
+                  <span
+                    className={`rounded-full px-1.5 py-0.5 text-[9px] font-bold ${
+                      source.available
+                        ? 'bg-emerald-50 text-emerald-700'
+                        : source.demoMode
+                        ? 'bg-violet-50 text-violet-700'
+                        : source.setupRequired
+                        ? 'bg-amber-50 text-amber-700'
+                        : 'bg-slate-100 text-slate-500'
+                    }`}
+                  >
+                    {source.setupRequired ? 'Setup' : source.demoMode ? 'Demo' : source.available ? 'Ready' : source.status}
+                  </span>
+                </button>
+              ))}
+            </div>
+          )}
+          {importNotice ? (
+            <p className="mt-3 rounded-md border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-600">{importNotice}</p>
+          ) : null}
         </div>
 
         <div className="mt-4 rounded-lg border border-slate-200 bg-slate-50 p-4">

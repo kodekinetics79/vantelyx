@@ -14,6 +14,12 @@ public sealed class InMemoryStore
     public List<AccessPolicyDto> AccessPolicies { get; } = new();
     public List<DelegationDto> Delegations { get; } = new();
     public List<ApprovalAuthorityDto> ApprovalAuthorities { get; } = new();
+    // Sprint 10: auxiliary demo collections surfaced read-only via the API in both
+    // InMemory and database modes (these are not yet relationally persisted).
+    public List<WorkItemDto> WorkItems { get; } = new();
+    public List<NotificationDto> Notifications { get; } = new();
+    public List<IntegrationConnectorDto> Integrations { get; } = new();
+    public List<ExecutionPackageDto> ExecutionPackages { get; } = new();
     public string CurrentUserId { get; set; } = "usr_admin";
 
     public InMemoryStore()
@@ -213,6 +219,45 @@ public sealed class InMemoryStore
                     Labels = new() { "system generated", "review required" },
                     Note = "Initial extraction completed."
                 }
+            }
+        });
+        WorkItems.AddRange(new[]
+        {
+            new WorkItemDto { Id = "wi_001", Title = "Legal review: Cloud Hosting Renewal FY27", Source = "Approval", ContractId = "ct_demo_001", ContractTitle = "Cloud Hosting Renewal FY27", Counterparty = "Northstar Cloud LLC", Priority = "high", DueDate = now.AddDays(2).ToString("O"), Assignee = "Nina Patel", Status = "open", CreatedAt = now.AddDays(-2).ToString("O"), UpdatedAt = now.AddDays(-1).ToString("O") },
+            new WorkItemDto { Id = "wi_002", Title = "Confirm insurance certificates", Source = "Obligation", ContractId = "ct_demo_001", ContractTitle = "Cloud Hosting Renewal FY27", Counterparty = "Northstar Cloud LLC", Priority = "high", DueDate = now.AddDays(-1).ToString("O"), Assignee = "Procurement", Status = "escalated", CreatedAt = now.AddDays(-10).ToString("O"), UpdatedAt = now.ToString("O"), EscalationReason = "Overdue past SLA threshold." },
+            new WorkItemDto { Id = "wi_003", Title = "Renewal notice decision", Source = "Renewal", ContractId = "ct_demo_001", ContractTitle = "Cloud Hosting Renewal FY27", Counterparty = "Northstar Cloud LLC", Priority = "medium", DueDate = now.AddDays(20).ToString("O"), Assignee = "Avery Morgan", Status = "in_progress", CreatedAt = now.AddDays(-5).ToString("O"), UpdatedAt = now.ToString("O") },
+        });
+
+        Notifications.AddRange(new[]
+        {
+            new NotificationDto { Id = "ntf_001", Type = "approval_assigned", Severity = "info", Source = "Approval", WorkItemId = "wi_001", ContractId = "ct_demo_001", ContractTitle = "Cloud Hosting Renewal FY27", Title = "Approval assigned", Message = "Legal review assigned for Cloud Hosting Renewal FY27.", Read = false, CreatedAt = now.AddDays(-1).ToString("O") },
+            new NotificationDto { Id = "ntf_002", Type = "obligation_overdue", Severity = "critical", Source = "Obligation", WorkItemId = "wi_002", ContractId = "ct_demo_001", ContractTitle = "Cloud Hosting Renewal FY27", Title = "Obligation overdue", Message = "Insurance certificate confirmation is overdue.", Read = false, CreatedAt = now.ToString("O") },
+            new NotificationDto { Id = "ntf_003", Type = "sla_escalation", Severity = "warning", Source = "Obligation", WorkItemId = "wi_002", Title = "SLA escalation", Message = "Work item escalated after breaching SLA.", Read = true, CreatedAt = now.AddHours(-3).ToString("O") },
+        });
+
+        Integrations.AddRange(new[]
+        {
+            new IntegrationConnectorDto { Id = "conn_sharepoint", Name = "Microsoft SharePoint", Vendor = "Microsoft", Category = "Document Storage", Description = "Document libraries and contract repositories.", Status = "Connected", Health = "Healthy", Enabled = true, DemoMode = false },
+            new IntegrationConnectorDto { Id = "conn_docusign", Name = "DocuSign", Vendor = "DocuSign", Category = "E-Signature", Description = "Electronic signature envelopes.", Status = "Error", Health = "Failed", Enabled = false, DemoMode = false },
+            new IntegrationConnectorDto { Id = "conn_manualupload", Name = "Manual Upload", Vendor = "Vantelyx", Category = "E-Signature", Description = "Upload a signed PDF manually — always available.", Status = "Connected", Health = "Healthy", Enabled = true, DemoMode = false },
+            new IntegrationConnectorDto { Id = "conn_teams", Name = "Microsoft Teams", Vendor = "Microsoft", Category = "Collaboration", Description = "Channel notifications and approvals.", Status = "Connected", Health = "Healthy", Enabled = true, DemoMode = false },
+            new IntegrationConnectorDto { Id = "conn_salesforce", Name = "Salesforce", Vendor = "Salesforce", Category = "CRM", Description = "Opportunity-to-contract sync.", Status = "Warning", Health = "Needs Attention", Enabled = true, DemoMode = false },
+            new IntegrationConnectorDto { Id = "conn_ariba", Name = "SAP Ariba", Vendor = "SAP", Category = "ERP / Procurement", Description = "Procurement and supplier management.", Status = "Disabled", Health = "Not Tested", Enabled = false, DemoMode = false },
+            new IntegrationConnectorDto { Id = "conn_okta", Name = "Okta", Vendor = "Okta", Category = "Identity & SSO", Description = "Identity provider and SSO.", Status = "Not Configured", Health = "Not Tested", Enabled = false, DemoMode = false },
+        });
+
+        ExecutionPackages.Add(new ExecutionPackageDto
+        {
+            Id = "exec_demo_001",
+            ContractId = "ct_demo_001",
+            Provider = "Manual Upload",
+            Status = "sent",
+            CreatedAt = now.AddDays(-3).ToString("O"),
+            SentAt = now.AddDays(-2).ToString("O"),
+            Signers = new()
+            {
+                new ExecutionSignerDto { Id = "sgn_001", Name = "Maya Chen", Email = "maya.chen@vantelyx.com", Role = "Internal Signer", Order = 1, Status = "completed", CompletedAt = now.AddDays(-1).ToString("O") },
+                new ExecutionSignerDto { Id = "sgn_002", Name = "Counterparty Signer", Email = "signer@northstarcloud.com", Role = "Counterparty Signer", Order = 2, Status = "pending" },
             }
         });
     }

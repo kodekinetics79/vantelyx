@@ -173,3 +173,54 @@ INSERT IGNORE INTO approval_authorities (id, role_id, max_contract_value, can_ap
   ('auth_legal_admin','role_legal_admin',2000000,1,JSON_ARRAY('dept_legal','dept_technology')),
   ('auth_manager','role_contract_manager',500000,0,JSON_ARRAY('dept_technology','dept_procurement')),
   ('auth_exec','role_executive_approver',10000000,1,JSON_ARRAY('dept_executive','dept_finance','dept_legal'));
+
+-- ============================================================================
+-- Sprint 10 demo rows: tenant, execution, operations, integrations, audit.
+-- Aligned to frontend demo concepts (references contract ct_demo_001).
+-- ============================================================================
+
+INSERT IGNORE INTO tenants (id, name, slug, status) VALUES
+  ('tenant_demo','Vantelyx Demo Tenant','vantelyx-demo','active');
+
+INSERT IGNORE INTO execution_packages (id, contract_id, provider, status, created_at, sent_at, executed_at, archive_id) VALUES
+  ('exec_demo_001','ct_demo_001','Manual Upload','sent', NOW(3), DATE_SUB(NOW(3), INTERVAL 2 DAY), NULL, NULL);
+
+INSERT IGNORE INTO execution_signers (id, package_id, name, email, role, signer_order, status, completed_at) VALUES
+  ('sgn_001','exec_demo_001','Maya Chen','maya.chen@vantelyx.com','Internal Signer',1,'completed', DATE_SUB(NOW(3), INTERVAL 1 DAY)),
+  ('sgn_002','exec_demo_001','Counterparty Signer','signer@northstarcloud.com','Counterparty Signer',2,'pending', NULL);
+
+INSERT IGNORE INTO work_items (id, title, source, contract_id, contract_title, counterparty, priority, due_date, assignee, status, created_at, updated_at, escalation_reason) VALUES
+  ('wi_001','Legal review: Cloud Hosting Renewal FY27','Approval','ct_demo_001','Cloud Hosting Renewal FY27','Northstar Cloud LLC','high', DATE_ADD(NOW(3), INTERVAL 2 DAY),'Nina Patel','open', DATE_SUB(NOW(3), INTERVAL 2 DAY), NOW(3), NULL),
+  ('wi_002','Confirm insurance certificates','Obligation','ct_demo_001','Cloud Hosting Renewal FY27','Northstar Cloud LLC','high', DATE_SUB(NOW(3), INTERVAL 1 DAY),'Procurement','escalated', DATE_SUB(NOW(3), INTERVAL 10 DAY), NOW(3),'Overdue past SLA threshold.'),
+  ('wi_003','Renewal notice decision','Renewal','ct_demo_001','Cloud Hosting Renewal FY27','Northstar Cloud LLC','medium', DATE_ADD(NOW(3), INTERVAL 20 DAY),'Avery Morgan','in_progress', DATE_SUB(NOW(3), INTERVAL 5 DAY), NOW(3), NULL);
+
+INSERT IGNORE INTO notifications (id, type, severity, source, work_item_id, contract_id, contract_title, title, message, is_read, created_at) VALUES
+  ('ntf_001','approval_assigned','info','Approval','wi_001','ct_demo_001','Cloud Hosting Renewal FY27','Approval assigned','Legal review assigned for Cloud Hosting Renewal FY27.',0, DATE_SUB(NOW(3), INTERVAL 1 DAY)),
+  ('ntf_002','obligation_overdue','critical','Obligation','wi_002','ct_demo_001','Cloud Hosting Renewal FY27','Obligation overdue','Insurance certificate confirmation is overdue.',0, NOW(3)),
+  ('ntf_003','sla_escalation','warning','Obligation','wi_002',NULL,NULL,'SLA escalation','Work item escalated after breaching SLA.',1, DATE_SUB(NOW(3), INTERVAL 3 HOUR));
+
+INSERT IGNORE INTO integrations (id, name, vendor, category, description, status, health, enabled, demo_mode, last_synced_at) VALUES
+  ('conn_sharepoint','Microsoft SharePoint','Microsoft','Document Storage','Document libraries and contract repositories.','Connected','Healthy',1,0, DATE_SUB(NOW(3), INTERVAL 35 MINUTE)),
+  ('conn_docusign','DocuSign','DocuSign','E-Signature','Electronic signature envelopes.','Error','Failed',0,0, NULL),
+  ('conn_manualupload','Manual Upload','Vantelyx','E-Signature','Upload a signed PDF manually.','Connected','Healthy',1,0, NULL),
+  ('conn_teams','Microsoft Teams','Microsoft','Collaboration','Channel notifications and approvals.','Connected','Healthy',1,0, NULL),
+  ('conn_salesforce','Salesforce','Salesforce','CRM','Opportunity-to-contract sync.','Warning','Needs Attention',1,0, NULL),
+  ('conn_ariba','SAP Ariba','SAP','ERP / Procurement','Procurement and supplier management.','Disabled','Not Tested',0,0, NULL),
+  ('conn_okta','Okta','Okta','Identity & SSO','Identity provider and SSO.','Not Configured','Not Tested',0,0, NULL),
+  ('conn_dropbox','Dropbox','Dropbox','Document Storage','File hosting and sharing.','Demo Mode','Demo Only',0,1, NULL);
+
+INSERT IGNORE INTO sync_jobs (id, connector_id, connector_name, direction, status, records_processed, started_at, completed_at, message) VALUES
+  ('sync_sp_1','conn_sharepoint','Microsoft SharePoint','Import','Completed',42, DATE_SUB(NOW(3), INTERVAL 40 MINUTE), DATE_SUB(NOW(3), INTERVAL 35 MINUTE),'Imported 42 documents from contract library.'),
+  ('sync_sf_1','conn_salesforce','Salesforce','Bidirectional','Failed',0, DATE_SUB(NOW(3), INTERVAL 4 HOUR), DATE_SUB(NOW(3), INTERVAL 4 HOUR),'Authentication error — credentials need review.');
+
+INSERT IGNORE INTO webhook_events (id, connector_id, connector_name, event_name, status, attempts, received_at, message) VALUES
+  ('wh_1','conn_docusign','DocuSign','envelope.completed','Failed',3, DATE_SUB(NOW(3), INTERVAL 3 HOUR),'Delivery failed: signature verification error (demo).'),
+  ('wh_2','conn_sharepoint','Microsoft SharePoint','document.created','Processed',1, DATE_SUB(NOW(3), INTERVAL 9 HOUR), NULL);
+
+INSERT IGNORE INTO integration_events (id, connector_id, type, actor, message, timestamp, source) VALUES
+  ('ievt_1','conn_sharepoint','sync_completed','System','SharePoint import completed (42 documents).', DATE_SUB(NOW(3), INTERVAL 35 MINUTE),'Integrations Hub'),
+  ('ievt_2','conn_docusign','connection_tested','System','DocuSign connection test failed (demo).', DATE_SUB(NOW(3), INTERVAL 3 HOUR),'Integrations Hub');
+
+INSERT IGNORE INTO audit_events (id, tenant_id, actor, action, entity_type, entity_id, source, detail, timestamp) VALUES
+  ('aud_1','tenant_demo','Alex Rivera','contract.created','contract','ct_demo_001','API','Contract created from intake.', DATE_SUB(NOW(3), INTERVAL 20 DAY)),
+  ('aud_2','tenant_demo','System','integration.sync_completed','integration','conn_sharepoint','Integrations Hub','SharePoint demo sync completed.', DATE_SUB(NOW(3), INTERVAL 35 MINUTE));

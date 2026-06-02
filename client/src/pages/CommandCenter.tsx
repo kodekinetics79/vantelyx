@@ -5,6 +5,7 @@ import { getNotifications, getSlaMetrics, getUnreadNotificationCount, getWorkIte
 import type { ActivityLog, Contract } from '../types/clm';
 import type { Notification } from '../types/workflowOps';
 import { askCopilot } from '../services/aiCopilotService';
+import { getIntegrationMetrics } from '../services/integrationService';
 
 const formatMoney = (value: number): string =>
   new Intl.NumberFormat('en-US', {
@@ -75,6 +76,14 @@ export default function CommandCenter() {
   }, [refresh]);
 
   const executedContracts = useMemo(() => contracts.filter((contract) => contract.status === 'executed').length, [contracts]);
+
+  const integrationMetrics = useMemo(() => {
+    try {
+      return getIntegrationMetrics();
+    } catch {
+      return undefined;
+    }
+  }, [refresh]);
 
   const highRiskContracts = useMemo(
     () => contracts.filter((contract) => contract.riskScore >= 70).sort((a, b) => b.riskScore - a.riskScore).slice(0, 6),
@@ -237,6 +246,27 @@ export default function CommandCenter() {
             <h3 className="text-xl font-black tracking-tight">Execution and closure status</h3>
             <p className="mt-3 text-sm text-slate-700">Executed contracts: <span className="font-bold">{executedContracts}</span></p>
             <p className="mt-1 text-sm text-slate-700">Due this week: <span className="font-bold">{opsMetrics.dueThisWeek}</span></p>
+          </div>
+
+          <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-soft">
+            <p className="text-xs font-bold uppercase tracking-[0.22em] text-brand-600">Integration Health</p>
+            <h3 className="text-xl font-black tracking-tight">Connected systems</h3>
+            {integrationMetrics ? (
+              <>
+                <ul className="mt-3 space-y-1 text-sm text-slate-700">
+                  <li>- Connected connectors: <span className="font-bold">{integrationMetrics.connectedConnectors}</span></li>
+                  <li>- Connectors needing attention: <span className="font-bold">{integrationMetrics.needsAttention}</span></li>
+                  <li>- Failed sync jobs: <span className="font-bold">{integrationMetrics.failedSyncJobs}</span></li>
+                  <li>- Webhook failures: <span className="font-bold">{integrationMetrics.failedWebhooks}</span></li>
+                  <li>- Last successful sync: <span className="font-bold">{formatDate(integrationMetrics.lastSuccessfulSyncAt)}</span></li>
+                </ul>
+                <div className="mt-3">
+                  <button onClick={() => (window.location.hash = '#integrations')} className="rounded-xl bg-brand-600 px-3 py-1.5 text-xs font-bold text-white">Open Integrations Hub</button>
+                </div>
+              </>
+            ) : (
+              <p className="mt-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-500">Integration data unavailable.</p>
+            )}
           </div>
 
           <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-soft">

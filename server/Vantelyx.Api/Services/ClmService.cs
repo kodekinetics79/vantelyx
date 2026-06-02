@@ -1,12 +1,21 @@
 using System.Text;
+using Vantelyx.Api.Data;
 using Vantelyx.Api.Models;
 using Vantelyx.Api.Repositories;
 
 namespace Vantelyx.Api.Services;
 
-public sealed class ClmService(IClmRepository repository)
+public sealed class ClmService(IClmRepository repository, InMemoryStore store)
 {
     public IReadOnlyList<ContractDto> GetContracts() => repository.GetContracts();
+
+    // Sprint 10: read-only auxiliary demo collections (work items, notifications,
+    // integrations, execution packages). Sourced from the shared seeded store in both
+    // InMemory and database modes; not yet relationally persisted.
+    public IReadOnlyList<WorkItemDto> GetWorkItems() => store.WorkItems;
+    public IReadOnlyList<NotificationDto> GetNotifications() => store.Notifications;
+    public IReadOnlyList<IntegrationConnectorDto> GetIntegrations() => store.Integrations;
+    public IReadOnlyList<ExecutionPackageDto> GetExecutionPackages() => store.ExecutionPackages;
     public ContractDto? GetContractById(string id) => repository.GetContractById(id);
     public ContractDto CreateContract(ContractRequestDto request) => repository.CreateContract(request);
     public ContractDto? UpdateContractStatus(string id, StatusUpdateRequest request) => repository.UpdateContractStatus(id, request);

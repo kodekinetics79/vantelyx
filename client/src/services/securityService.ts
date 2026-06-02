@@ -163,6 +163,22 @@ const getCurrentRole = (): Role => {
 
 export const hasPermission = (permission: Permission): boolean => getCurrentRole().permissions.includes(permission);
 
+// Integrations Hub RBAC awareness (Sprint 9). Implemented on top of existing admin
+// permissions so the strict Permission union does not need to change. "Manage" covers
+// admin-capable roles; everyone authenticated may "view" the hub read-only.
+export const canManageIntegrations = (): boolean =>
+  hasPermission('admin.manage_policies') ||
+  hasPermission('admin.manage_users') ||
+  hasPermission('admin.manage_roles');
+
+export const canViewIntegrations = (): boolean => {
+  try {
+    return !!getCurrentUser();
+  } catch {
+    return false;
+  }
+};
+
 const getContractDepartment = (contract: Contract): Department => {
   const direct = contract.request.department;
   if (direct) return direct as Department;

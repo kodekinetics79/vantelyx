@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Vantelyx.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0418b47f03eca90d36fa53cc1e0477ae2058cc64")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+52e54e73738bf75e3010518274163b26fe4af21e")]
 [assembly: System.Reflection.AssemblyProductAttribute("Vantelyx.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Vantelyx.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

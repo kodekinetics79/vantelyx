@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { clmRepository } from '../services/clmRepository';
+import { addIntegrationEvent, getAvailableESignProviders } from '../services/integrationService';
 import type { Contract } from '../types/clm';
 import type { ExecutionPackage } from '../types/execution';
 
@@ -106,6 +107,18 @@ export default function ESign() {
   };
 
   const contractById = useMemo(() => new Map(contracts.map((contract) => [contract.id, contract])), [contracts]);
+  const esignProviders = useMemo(() => {
+    try {
+      return getAvailableESignProviders();
+    } catch {
+      return [];
+    }
+  }, []);
+
+  const selectProvider = (label: string, connectorId?: string) => {
+    addIntegrationEvent({ type: 'esign_provider_selected', connectorId, message: `E-sign provider selected: ${label}.` });
+    setMessage(`Selected e-signature provider: ${label}.`);
+  };
 
   return (
     <div className="space-y-6">
@@ -120,6 +133,47 @@ export default function ESign() {
         <SummaryCard label="Awaiting Signature" value={String(awaitingSignature)} />
         <SummaryCard label="Executed This Month" value={String(executedThisMonth)} />
         <SummaryCard label="Archived Final Contracts" value={String(archivedFinalContracts)} />
+      </div>
+
+      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-soft">
+        <div className="flex items-center justify-between">
+          <h3 className="text-xl font-black tracking-tight text-slate-950">E-Signature Providers</h3>
+          <span className="text-xs font-semibold text-slate-500">Status from Integrations Hub (demo)</span>
+        </div>
+        {esignProviders.length === 0 ? (
+          <p className="mt-3 rounded-md border border-slate-200 bg-slate-50 p-3 text-sm text-slate-500">No e-signature providers available.</p>
+        ) : (
+          <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+            {esignProviders.map((provider) => (
+              <button
+                key={provider.key}
+                type="button"
+                onClick={() => selectProvider(provider.label, provider.connectorId)}
+                className="rounded-lg border border-slate-200 p-4 text-left transition hover:border-brand-300 hover:bg-slate-50"
+              >
+                <p className="text-sm font-bold text-slate-900">{provider.label}</p>
+                <span
+                  className={`mt-2 inline-flex rounded-full px-2 py-0.5 text-[10px] font-bold ring-1 ${
+                    provider.available
+                      ? 'bg-emerald-50 text-emerald-700 ring-emerald-100'
+                      : provider.demoMode
+                      ? 'bg-violet-50 text-violet-700 ring-violet-100'
+                      : 'bg-amber-50 text-amber-700 ring-amber-100'
+                  }`}
+                >
+                  {provider.status}
+                </span>
+                <p className="mt-2 text-[11px] text-slate-500">
+                  {provider.available
+                    ? 'Ready to use in demo.'
+                    : provider.demoMode
+                    ? 'Demo mode — simulated only.'
+                    : 'Setup required — configure in Integrations Hub.'}
+                </p>
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-soft">

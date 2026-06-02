@@ -26,11 +26,13 @@ services:
     container_name: vantelyx-clm-api
     restart: unless-stopped
     environment:
-      ASPNETCORE_URLS: http://+:8088
+      ASPNETCORE_URLS: http://+:${API_PORT:-5058}
+      # Use MySQL persistence in full-stack mode (falls back to InMemory if unset).
+      Persistence__Provider: MySql
       ConnectionStrings__DefaultConnection: Server=mysql;Port=3306;Database=${MYSQL_DATABASE:-vantelyx_clm};User=${MYSQL_USER:-vantelyx_user};Password=${MYSQL_PASSWORD:-vantelyx_password};
       ConnectionStrings__MySql: Server=mysql;Port=3306;Database=${MYSQL_DATABASE:-vantelyx_clm};User=${MYSQL_USER:-vantelyx_user};Password=${MYSQL_PASSWORD:-vantelyx_password};
     ports:
-      - "8088:8088"
+      - "${API_PORT:-5058}:${API_PORT:-5058}"
     depends_on:
       mysql:
         condition: service_healthy

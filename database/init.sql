@@ -268,3 +268,154 @@ CREATE TABLE IF NOT EXISTS approval_authorities (
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT fk_approval_authorities_role FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE
 );
+
+-- ============================================================================
+-- Sprint 10 alignment: multi-tenant root, execution, operations, integrations,
+-- and audit tables. TODO(Security): add tenant_id to all business + security
+-- tables and enforce row-level isolation once authentication is implemented.
+-- ============================================================================
+
+CREATE TABLE IF NOT EXISTS tenants (
+  id VARCHAR(64) PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  slug VARCHAR(128) NOT NULL UNIQUE,
+  status VARCHAR(32) NOT NULL DEFAULT 'active',
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS execution_packages (
+  id VARCHAR(64) PRIMARY KEY,
+  contract_id VARCHAR(64) NOT NULL,
+  provider VARCHAR(128) NOT NULL,
+  status VARCHAR(64) NOT NULL,
+  created_at DATETIME(3) NOT NULL,
+  sent_at DATETIME(3),
+  executed_at DATETIME(3),
+  archive_id VARCHAR(64),
+  CONSTRAINT fk_execution_packages_contract FOREIGN KEY (contract_id) REFERENCES contracts(id) ON DELETE CASCADE,
+  INDEX idx_execution_packages_contract (contract_id),
+  INDEX idx_execution_packages_status (status)
+);
+
+CREATE TABLE IF NOT EXISTS execution_signers (
+  id VARCHAR(64) PRIMARY KEY,
+  package_id VARCHAR(64) NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  role VARCHAR(128) NOT NULL,
+  signer_order INT NOT NULL,
+  status VARCHAR(64) NOT NULL,
+  completed_at DATETIME(3),
+  CONSTRAINT fk_execution_signers_package FOREIGN KEY (package_id) REFERENCES execution_packages(id) ON DELETE CASCADE,
+  INDEX idx_execution_signers_package (package_id)
+);
+
+CREATE TABLE IF NOT EXISTS work_items (
+  id VARCHAR(64) PRIMARY KEY,
+  title VARCHAR(500) NOT NULL,
+  source VARCHAR(64) NOT NULL,
+  contract_id VARCHAR(64),
+  contract_title VARCHAR(500),
+  counterparty VARCHAR(255),
+  priority VARCHAR(32) NOT NULL,
+  due_date DATETIME(3) NOT NULL,
+  assignee VARCHAR(255) NOT NULL,
+  status VARCHAR(64) NOT NULL,
+  created_at DATETIME(3) NOT NULL,
+  updated_at DATETIME(3) NOT NULL,
+  note TEXT,
+  escalation_reason TEXT,
+  reference_id VARCHAR(64),
+  INDEX idx_work_items_status (status),
+  INDEX idx_work_items_due (due_date),
+  INDEX idx_work_items_contract (contract_id)
+);
+
+CREATE TABLE IF NOT EXISTS notifications (
+  id VARCHAR(64) PRIMARY KEY,
+  type VARCHAR(64) NOT NULL,
+  severity VARCHAR(32) NOT NULL,
+  source VARCHAR(64) NOT NULL,
+  work_item_id VARCHAR(64),
+  contract_id VARCHAR(64),
+  contract_title VARCHAR(500),
+  counterparty VARCHAR(255),
+  title VARCHAR(500) NOT NULL,
+  message TEXT NOT NULL,
+  is_read BOOLEAN NOT NULL DEFAULT FALSE,
+  created_at DATETIME(3) NOT NULL,
+  INDEX idx_notifications_read (is_read),
+  INDEX idx_notifications_time (created_at)
+);
+
+CREATE TABLE IF NOT EXISTS integrations (
+  id VARCHAR(64) PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  vendor VARCHAR(255) NOT NULL,
+  category VARCHAR(64) NOT NULL,
+  description TEXT,
+  status VARCHAR(64) NOT NULL,
+  health VARCHAR(64) NOT NULL,
+  enabled BOOLEAN NOT NULL DEFAULT FALSE,
+  demo_mode BOOLEAN NOT NULL DEFAULT FALSE,
+  last_tested_at DATETIME(3),
+  last_synced_at DATETIME(3),
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_integrations_category (category),
+  INDEX idx_integrations_status (status)
+);
+
+CREATE TABLE IF NOT EXISTS integration_events (
+  id VARCHAR(64) PRIMARY KEY,
+  connector_id VARCHAR(64),
+  type VARCHAR(64) NOT NULL,
+  actor VARCHAR(255) NOT NULL,
+  message TEXT NOT NULL,
+  timestamp DATETIME(3) NOT NULL,
+  source VARCHAR(64) NOT NULL DEFAULT 'Integrations Hub',
+  INDEX idx_integration_events_connector (connector_id),
+  INDEX idx_integration_events_time (timestamp)
+);
+
+CREATE TABLE IF NOT EXISTS sync_jobs (
+  id VARCHAR(64) PRIMARY KEY,
+  connector_id VARCHAR(64) NOT NULL,
+  connector_name VARCHAR(255) NOT NULL,
+  direction VARCHAR(32) NOT NULL,
+  status VARCHAR(32) NOT NULL,
+  records_processed INT NOT NULL DEFAULT 0,
+  started_at DATETIME(3) NOT NULL,
+  completed_at DATETIME(3),
+  message TEXT,
+  INDEX idx_sync_jobs_connector (connector_id),
+  INDEX idx_sync_jobs_status (status)
+);
+
+CREATE TABLE IF NOT EXISTS webhook_events (
+  id VARCHAR(64) PRIMARY KEY,
+  connector_id VARCHAR(64) NOT NULL,
+  connector_name VARCHAR(255) NOT NULL,
+  event_name VARCHAR(255) NOT NULL,
+  status VARCHAR(32) NOT NULL,
+  attempts INT NOT NULL DEFAULT 1,
+  received_at DATETIME(3) NOT NULL,
+  message TEXT,
+  INDEX idx_webhook_events_connector (connector_id),
+  INDEX idx_webhook_events_status (status)
+);
+
+-- TODO(Security): make audit_events append-only / immutable (no UPDATE/DELETE) and
+-- add tenant_id + actor identity from validated JWT claims for audit-grade logging.
+CREATE TABLE IF NOT EXISTS audit_events (
+  id VARCHAR(64) PRIMARY KEY,
+  tenant_id VARCHAR(64),
+  actor VARCHAR(255) NOT NULL,
+  action VARCHAR(255) NOT NULL,
+  entity_type VARCHAR(64),
+  entity_id VARCHAR(64),
+  source VARCHAR(64) NOT NULL,
+  detail TEXT,
+  timestamp DATETIME(3) NOT NULL,
+  INDEX idx_audit_events_entity (entity_type, entity_id),
+  INDEX idx_audit_events_time (timestamp)
+);

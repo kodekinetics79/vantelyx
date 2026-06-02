@@ -289,3 +289,77 @@ public sealed class SecuritySwitchUserRequest
 {
     public required string UserId { get; set; }
 }
+
+// ── Sprint 10 alignment DTOs (match frontend models as closely as practical) ──
+
+public sealed class WorkItemDto
+{
+    public required string Id { get; set; }
+    public required string Title { get; set; }
+    public required string Source { get; set; }
+    public string? ContractId { get; set; }
+    public string? ContractTitle { get; set; }
+    public string? Counterparty { get; set; }
+    public required string Priority { get; set; }
+    public required string DueDate { get; set; }
+    public required string Assignee { get; set; }
+    public required string Status { get; set; }
+    public required string CreatedAt { get; set; }
+    public required string UpdatedAt { get; set; }
+    public string? Note { get; set; }
+    public string? EscalationReason { get; set; }
+    public string? ReferenceId { get; set; }
+}
+
+public sealed class NotificationDto
+{
+    public required string Id { get; set; }
+    public required string Type { get; set; }
+    public required string Severity { get; set; }
+    public required string Source { get; set; }
+    public string? WorkItemId { get; set; }
+    public string? ContractId { get; set; }
+    public string? ContractTitle { get; set; }
+    public string? Counterparty { get; set; }
+    public required string Title { get; set; }
+    public required string Message { get; set; }
+    public bool Read { get; set; }
+    public required string CreatedAt { get; set; }
+}
+
+public sealed class IntegrationConnectorDto
+{
+    public required string Id { get; set; }
+    public required string Name { get; set; }
+    public required string Vendor { get; set; }
+    public required string Category { get; set; }
+    public required string Description { get; set; }
+    public required string Status { get; set; }
+    public required string Health { get; set; }
+    public bool Enabled { get; set; }
+    public bool DemoMode { get; set; }
+}
+
+public sealed class ExecutionSignerDto
+{
+    public required string Id { get; set; }
+    public required string Name { get; set; }
+    public required string Email { get; set; }
+    public required string Role { get; set; }
+    public int Order { get; set; }
+    public required string Status { get; set; }
+    public string? CompletedAt { get; set; }
+}
+
+public sealed class ExecutionPackageDto
+{
+    public required string Id { get; set; }
+    public required string ContractId { get; set; }
+    public required string Provider { get; set; }
+    public required string Status { get; set; }
+    public required string CreatedAt { get; set; }
+    public string? SentAt { get; set; }
+    public string? ExecutedAt { get; set; }
+    public string? ArchiveId { get; set; }
+    public List<ExecutionSignerDto> Signers { get; set; } = new();
+}
